@@ -1,36 +1,57 @@
 "use client";
-import { useToast } from "@/components/ui/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import z from "zod";
 
 export default function Home() {
     const { toast } = useToast();
-    const posts = z.array(
+    const todos = z.array(
         z.object({
             id: z.number(),
             title: z.string(),
-            body: z.string(),
+            completed: z.boolean(),
         })
     );
-    const acknowledgement = (title: string, body: string) => {
+    const toggleTodo = useMutation({
+        mutationFn: async ({
+            id,
+            completed,
+        }: {
+            id: number;
+            completed: boolean;
+        }) => {
+            const { data: dt } = await axios.patch(
+                `http://localhost:8000/todos/${id}`,
+                { completed: !completed }
+            );
+            return dt;
+        },
+    });
+    const handleToggle = (title: string, completed: boolean, id: number) => {
+        toggleTodo.mutate({ id, completed });
+        queryClient.invalidateQueries({ queryKey: ["todos"] });
         toast({
-            title: title,
-            description: body,
+            title: completed ? "Not Completed" : "Completed",
+            description: title,
         });
     };
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["posts"],
+        queryKey: ["todos"],
         queryFn: async () => {
             const { data: dt } = await axios.get(
-                "https://jsonplaceholder.typicode.com/posts"
+                "http://localhost:8000/todos/"
             );
-            return posts.parse(dt);
+            const val = todos.parse(dt);
+            return val.reverse();
         },
     });
-    const empty100array = Array(100).fill(posts);
+    const empty100array = Array(100).fill({});
+    const queryClient = useQueryClient();
     if (isLoading) {
         return empty100array.map((_, index) => {
             return (
@@ -52,24 +73,30 @@ export default function Home() {
     }
     if (!isLoading && !isError) {
         return (
-            <main>
+            <>
                 {data &&
-                    data?.map((post) => {
+                    data?.map((todo) => {
                         return (
-                            <Card
-                                key={post.id}
-                                onClick={() =>
-                                    acknowledgement(post.title, post.body)
-                                }
-                            >
+                            <Card key={todo.id}>
                                 <CardHeader>
-                                    <CardTitle>{post.title}</CardTitle>
+                                    <CardTitle>{todo.title}</CardTitle>
                                 </CardHeader>
-                                <CardContent>{post.body}</CardContent>
+                                <CardContent>
+                                    <Checkbox
+                                        checked={todo.completed}
+                                        onCheckedChange={() =>
+                                            handleToggle(
+                                                todo.title,
+                                                todo.completed,
+                                                todo.id
+                                            )
+                                        }
+                                    />
+                                </CardContent>
                             </Card>
                         );
                     })}
-            </main>
+            </>
         );
     }
 }
