@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/theme-toggle";
 import Provider from "./provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata = {
     title: "Todo App",
@@ -24,7 +25,9 @@ export default function RootLayout({
                 >
                     <ModeToggle />
                     <main>
-                        <Provider>{children}</Provider>
+                        <Provider>
+                            <TooltipProvider>{children}</TooltipProvider>
+                        </Provider>
                     </main>
                     <Toaster />
                 </ThemeProvider>
