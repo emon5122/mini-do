@@ -1,15 +1,21 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
 import z from "zod";
 
 export default function Home() {
     const { toast } = useToast();
+    const [editId, setEditId] = useState<number>();
+    const [newTitle, setNewTitle] = useState<string>();
     const todos = z.array(
         z.object({
             id: z.number(),
@@ -32,6 +38,20 @@ export default function Home() {
             return dt;
         },
     });
+    const updateTodo = useMutation({
+        mutationFn: async ({ id }: { id: number }) => {
+            const { data: dt } = await axios.patch(
+                `http://localhost:8000/todos/${id}`,
+                { title: newTitle }
+            );
+            return dt;
+        },
+    });
+    const handleSave = (id: number) => {
+        updateTodo.mutate({ id });
+        setEditId(0);
+        setNewTitle("");
+    };
     const handleToggle = (title: string, completed: boolean, id: number) => {
         toggleTodo.mutate({ id, completed });
         queryClient.invalidateQueries({ queryKey: ["todos"] });
@@ -50,10 +70,10 @@ export default function Home() {
             return val.reverse();
         },
     });
-    const empty100array = Array(100).fill({});
+    const emptyArray = Array(10).fill({});
     const queryClient = useQueryClient();
     if (isLoading) {
-        return empty100array.map((_, index) => {
+        return emptyArray.map((_, index) => {
             return (
                 <Card key={index}>
                     <CardHeader>
@@ -79,7 +99,54 @@ export default function Home() {
                         return (
                             <Card key={todo.id}>
                                 <CardHeader>
-                                    <CardTitle>{todo.title}</CardTitle>
+                                    <CardTitle className="flex flex-row gap-2">
+                                        {editId === todo.id ? (
+                                            <>
+                                                <Input
+                                                    placeholder={todo.title}
+                                                    onChange={(e) =>
+                                                        setNewTitle(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                                <Button
+                                                    variant={"secondary"}
+                                                    onClick={() =>
+                                                        handleSave(todo.id)
+                                                    }
+                                                >
+                                                    <Image
+                                                        width="12"
+                                                        height="64"
+                                                        src={
+                                                            "https://img.icons8.com/ios/100/save--v1.png"
+                                                        }
+                                                        alt="save"
+                                                    />
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p>{todo.title}</p>
+                                                <Button
+                                                    variant={"secondary"}
+                                                    onClick={() =>
+                                                        setEditId(todo.id)
+                                                    }
+                                                >
+                                                    <Image
+                                                        width="12"
+                                                        height="64"
+                                                        src={
+                                                            "https://img.icons8.com/wired/64/pencil.png"
+                                                        }
+                                                        alt="edit"
+                                                    />
+                                                </Button>
+                                            </>
+                                        )}
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <Checkbox
