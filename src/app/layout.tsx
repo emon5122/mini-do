@@ -23,12 +23,16 @@ export default function RootLayout({
                     defaultTheme="system"
                     enableSystem
                 >
-                    <ModeToggle />
-                    <main>
-                        <Provider>
-                            <TooltipProvider>{children}</TooltipProvider>
-                        </Provider>
-                    </main>
+                    <div className="flex flex-col">
+                        <div className="flex justify-end mt-2 mb-4">
+                            <ModeToggle />
+                        </div>
+                        <main>
+                            <Provider>
+                                <TooltipProvider>{children}</TooltipProvider>
+                            </Provider>
+                        </main>
+                    </div>
                     <Toaster />
                 </ThemeProvider>
             </body>

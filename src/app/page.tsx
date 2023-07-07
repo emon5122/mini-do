@@ -1,4 +1,5 @@
 "use client";
+import FormComponent from "@/components/todo/todo-form";
 import { TodoItem, TodoItemSkeleton } from "@/components/todo/todo-item";
 import { useToast } from "@/components/ui/use-toast";
 import { myAxios } from "@/lib/data-fetcher";
@@ -12,25 +13,30 @@ const Home = () => {
     const queryClient = useQueryClient();
     const [editId, setEditId] = useState<number>();
     const emptyArray = Array(10).fill({});
-
-    const updateTodo = useMutation({
-        mutationFn: async (todo: Todo) => {
-            const { data: dt } = await myAxios.put(`todos/${todo.id}`, {
-                title: todo.title,
-                completed: todo.completed,
-            });
+    const toggleTodo = useMutation({
+        mutationFn: async ({
+            id,
+            completed,
+        }: {
+            id: number;
+            completed: boolean;
+        }) => {
+            const { data: dt } = await myAxios.patch(
+                `http://localhost:8000/todos/${id}`,
+                { completed: !completed }
+            );
             return dt;
         },
     });
-    const handleUpdate = (todo: Todo) => {
-        updateTodo.mutate(todo);
+    const handleToggle = (todo: Todo) => {
+        toggleTodo.mutate(todo);
         queryClient.invalidateQueries({ queryKey: ["todos"] });
-        setEditId(0);
         toast({
             title: todo.completed ? "Not Completed" : "Completed",
             description: todo.title,
         });
     };
+
 
     const {
         data: Todos,
@@ -45,11 +51,24 @@ const Home = () => {
             return val.reverse();
         },
     });
-
+    const deleteItem = useMutation({
+        mutationFn: async (id: number) => {
+            await myAxios.delete(`/todos/${id}`);
+        },
+    });
+    const handleDelete = (id: number) => {
+        deleteItem.mutate(id);
+        queryClient.invalidateQueries({ queryKey: ["todos"] });
+    };
     if (isLoading) {
-        return emptyArray.map((_, index) => {
-            return <TodoItemSkeleton key={index} />;
-        });
+        return (
+            <>
+                <FormComponent />
+                {emptyArray.map((_, index) => {
+                    return <TodoItemSkeleton key={index} />;
+                })}
+            </>
+        );
     }
     if (isError) {
         throw new Error(error as string);
@@ -57,6 +76,7 @@ const Home = () => {
 
     return (
         <>
+            <FormComponent />
             {Todos &&
                 Todos?.map((todo: Todo) => {
                     return (
@@ -64,8 +84,9 @@ const Home = () => {
                             key={todo.id}
                             editId={editId}
                             setEditId={setEditId}
-                            handleUpdate={handleUpdate}
                             todo={todo}
+                            handleDelete={handleDelete}
+                            handleToggle={handleToggle}
                         />
                     );
                 })}

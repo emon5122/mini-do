@@ -23,7 +23,7 @@
     {
       "id": 5,
       "title": "Call mom and wish her happy birthday",
-      "completed": false
+      "completed": true
     },
     {
       "id": 6,
@@ -44,11 +44,6 @@
       "id": 9,
       "title": "Prepare presentation slides for the meeting",
       "completed": false
-    },
-    {
-      "title": "Hello",
-      "completed": true,
-      "id": 10
     }
   ]
 }

@@ -1,41 +1,86 @@
-import { Edit, Save } from "lucide-react";
+import { Delete, Edit, Save, SaveIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Checkbox } from "../ui/checkbox";
 import { Skeleton } from "../ui/skeleton";
+import { TodoFormType, TodoProps } from "@/types/todo";
+import { DevTool } from "@hookform/devtools";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem } from "../ui/form";
+import { useForm } from "react-hook-form";
+import { addFormSchema } from "@/schema/todo";
+import { QueryClient, useMutation } from "@tanstack/react-query";
+import { myAxios } from "@/lib/data-fetcher";
 
-export const TodoItem = (props: any) => {
+export const TodoItem = (props: TodoProps) => {
+    const queryClient = new QueryClient();
+    const form = useForm<TodoFormType>({
+        resolver: zodResolver(addFormSchema),
+        defaultValues: {
+            todoItem: "",
+        },
+    });
+    const updateTodo = useMutation({
+        mutationFn: async ({ id, title }: { id: number; title: string }) => {
+            const { data: dt } = await myAxios.patch(`todos/${id}`, {
+                title,
+            });
+            return dt;
+        },
+    });
+    const handleUpdate = ({ id, title }: { id: number; title: string }) => {
+        updateTodo.mutate({ id, title });
+        queryClient.invalidateQueries({ queryKey: ["todos"] });
+        props.setEditId(0);
+    };
+    const onSubmit = (values: TodoFormType) => {
+        const data = { id: props.todo.id, title: values.todoItem };
+        handleUpdate(data);
+        form.reset();
+        queryClient.invalidateQueries({ queryKey: ["todos"] });
+    };
     return (
         <Card>
             <CardHeader>
                 <CardTitle className="flex flex-row gap-2">
                     {props.editId === props.todo.id ? (
                         <>
-                            <Input
-                                placeholder={props.todo.title}
-                                onChange={(
-                                    e // TODO: Need to change
-                                ) => console.log("first")}
-                            />
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <Button
-                                        variant={"secondary"}
-                                        onClick={() =>
-                                            props.handleUpdate(props.todo)
-                                        }
-                                    >
-                                        <Save />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p className="capitalize">
-                                        Updates to new title
-                                    </p>
-                                </TooltipContent>
-                            </Tooltip>
+                            <Form {...form}>
+                                <form
+                                    onSubmit={form.handleSubmit(onSubmit)}
+                                    className="flex justify-between gap-2"
+                                >
+                                    <FormField
+                                        control={form.control}
+                                        name="todoItem"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="eg. Go to school at the morning"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <Tooltip>
+                                        <TooltipTrigger>
+                                            <Button type="submit">
+                                                <SaveIcon />
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="capitalize">
+                                                Updates to this new todo
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </form>
+                            </Form>
+                            <DevTool control={form.control} />
                         </>
                     ) : (
                         <>
@@ -61,6 +106,23 @@ export const TodoItem = (props: any) => {
                                     <p className="capitalize">Edit Title</p>
                                 </TooltipContent>
                             </Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <Button
+                                        variant={"destructive"}
+                                        onClick={() =>
+                                            props.handleDelete(props.todo.id)
+                                        }
+                                    >
+                                        <Delete />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p className="capitalize">
+                                        Delete this todo
+                                    </p>
+                                </TooltipContent>
+                            </Tooltip>
                         </>
                     )}
                 </CardTitle>
@@ -71,8 +133,7 @@ export const TodoItem = (props: any) => {
                         <Checkbox
                             checked={props.todo.completed}
                             onCheckedChange={() =>
-                                // TODO: Need to handle this
-                                console.log("first")
+                                props.handleToggle(props.todo)
                             }
                         />
                     </TooltipTrigger>
