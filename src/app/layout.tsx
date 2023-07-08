@@ -6,48 +6,63 @@ import Provider from "./provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import Animation from "@/components/animations";
 
 export const metadata = {
-  title: "Todo App",
-  description: "Experimental Todo App",
+    title: "Todo App",
+    description: "Experimental Todo App",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div>
-            <div className="flex justify-between py-2 bg-accent items-center">
-              <h1 className="text-center font-extrabold ml-10 text-xl">
-                <Link href="/"> TODO APP </Link>
-              </h1>
-              <ModeToggle />
-            </div>
-            <main>
-              <Provider>
-                <TooltipProvider>{children}</TooltipProvider>
-              </Provider>
-            </main>
-          </div>
-          <Toaster />
-        </ThemeProvider>
-        <footer className="flex justify-center py-2 bg-accent mt-4">
-          <p className="flex flex-row gap-2">
-            Made with {<Heart className="text-destructive fill-destructive" />}
-            by
-            <Link href={"https://ihemon.me"}>
-              <span className="hover:text-primary/40 transition-all duration-300 ease-in-out">
-                Istiak Hassan Emon
-              </span>
-            </Link>
-          </p>
-        </footer>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body>
+                <Animation />
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                >
+                    <div>
+                        <div
+                            className="flex justify-between py-2 bg-accent/10 items-center fixed top-0 w-full  rounded-b-md backdrop-blur-[2px]"
+                            style={{ boxShadow: ".5em -0.001em 1em" }}
+                        >
+                            <h1 className="text-center font-extrabold ml-10 text-xl">
+                                <Link href="/"> TODO APP </Link>
+                            </h1>
+                            <ModeToggle />
+                        </div>
+                        <main className="mt-20 mb-20">
+                            <Provider>
+                                <TooltipProvider>{children}</TooltipProvider>
+                            </Provider>
+                        </main>
+                    </div>
+                    <Toaster />
+                </ThemeProvider>
+                <footer
+                    style={{ boxShadow: ".5em -0.001em 1em" }}
+                    className="flex justify-center py-2 bg-accent/10 mt-4 bottom-0 fixed w-full rounded-t-md backdrop-blur-[2px]"
+                >
+                    <p className="flex flex-row gap-2">
+                        Made with{" "}
+                        {
+                            <Heart className="text-destructive fill-destructive" />
+                        }
+                        by
+                        <Link href={"https://ihemon.me"}>
+                            <span className="hover:text-primary/40 transition-all duration-300 ease-in-out">
+                                Istiak Hassan Emon
+                            </span>
+                        </Link>
+                    </p>
+                </footer>
+            </body>
+        </html>
+    );
 }
