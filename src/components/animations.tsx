@@ -39,7 +39,7 @@ const Animation = () => {
                 },
                 particles: {
                     color: {
-                        value: "#fff",
+                        value: "#f55b5b",
                     },
                     collisions: {
                         enable: true,

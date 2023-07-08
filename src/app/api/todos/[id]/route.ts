@@ -6,6 +6,9 @@ import { z } from 'zod';
 
 export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
     const token:any = await getToken({ req });
+    if (!token) {
+        return NextResponse.json({ status: 401, message: "Unauthorized" });
+    }
     try {
         const todoObject = await prisma.todo.findUnique({ where: { id: params.id } })
         if (!todoObject) {
@@ -37,6 +40,9 @@ export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
 }
 export const PATCH = async (req: NextRequest, { params }: ParamsType) => {
     const token: any = await getToken({ req });
+    if (!token) {
+        return NextResponse.json({ status: 401, message: "Unauthorized" });
+    }
     const body = await req.json()
     const validBody = z.object({
         title: z.string().min(5).optional(),

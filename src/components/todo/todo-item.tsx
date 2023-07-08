@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { addFormSchema } from "@/schema/todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { myAxios } from "@/lib/data-fetcher";
+import { envVariables } from "@/lib/env";
 
 export const TodoItem = (props: TodoProps) => {
     const queryClient = useQueryClient();
@@ -111,7 +112,9 @@ export const TodoItem = (props: TodoProps) => {
                                     </div>
                                 </form>
                             </Form>
-                            <DevTool control={form.control} />
+                            {process.env.NODE_ENV !== "production" && (
+                                <DevTool control={form.control} />
+                            )}
                         </>
                     ) : (
                         <>

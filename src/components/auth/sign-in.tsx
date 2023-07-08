@@ -12,7 +12,7 @@ import { signIn } from "next-auth/react";
 import { Button } from "../ui/button";
 import { GithubIcon } from "lucide-react";
 
-const SignUp = ({ className }: { className?: string }) => {
+const SignIn = ({ className }: { className?: string }) => {
     return (
         <div className={cn("", className)}>
             <Card>
@@ -33,4 +33,4 @@ const SignUp = ({ className }: { className?: string }) => {
     );
 };
 
-export default SignUp;
+export default SignIn;

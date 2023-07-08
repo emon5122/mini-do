@@ -1,17 +1,12 @@
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+import NextAuth ,{type NextAuthOptions}from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/db";
 import { envVariables } from "@/lib/env";
 
-export const authOptions = {
+export const authOptions:NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
-    GoogleProvider({
-      clientId: envVariables. GOOGLE_CLIENT_ID,
-      clientSecret:envVariables.GOOGLE_CLIENT_SECRET,
-    }),
     GitHubProvider({
       clientId:envVariables.GITHUB_CLIENT_ID,
       clientSecret:envVariables.GITHUB_CLIENT_SECRET,
@@ -49,10 +44,9 @@ export const authOptions = {
       session.user.image = token.image;
       return session;
     },
-  },
-  session: {
-    strategy: "jwt",
-  },
+  },session:{
+    strategy:"jwt"
+  }
 };
 const handler = NextAuth(authOptions as any);
 

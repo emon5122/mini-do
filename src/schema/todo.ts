@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const todo = z.object({
-    id: z.number(),
+    id: z.string().uuid(),
     title: z.string(),
     completed: z.boolean(),
 });

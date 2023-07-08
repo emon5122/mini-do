@@ -23,7 +23,7 @@ const Home = () => {
             id,
             completed,
         }: {
-            id: number;
+            id: string;
             completed: boolean;
         }) => {
             const { data: dt } = await myAxios.patch(`todos/${id}`, {
