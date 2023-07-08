@@ -6,7 +6,6 @@ import Provider from "./provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Link from "next/link";
 import { Heart } from "lucide-react";
-import Animation from "@/components/animations";
 
 export const metadata = {
     title: "Todo App",
@@ -21,7 +20,6 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <Animation />
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"

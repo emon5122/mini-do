@@ -1,4 +1,5 @@
 "use client";
+import Animation from "@/components/animations";
 import FormComponent from "@/components/todo/todo-form";
 import {
     FormSkeleton,
@@ -84,6 +85,7 @@ const Home = () => {
 
     return (
         <>
+            <Animation />
             <FormComponent />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mx-4 md:mx-10 mt-10">
                 {Todos &&
