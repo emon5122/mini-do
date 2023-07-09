@@ -9,45 +9,13 @@ export const authOptions:NextAuthOptions = {
   providers: [
     GitHubProvider({
       clientId:envVariables.GITHUB_CLIENT_ID,
-      clientSecret:envVariables.GITHUB_CLIENT_SECRET,
+      clientSecret:envVariables.GITHUB_CLIENT_SECRET,   
     }),
   ],
-  callbacks: {
-    async jwt({ token }:any) {
-      const userDb = async () => {
-        try {
-          return await prisma.user.findFirst({
-            where: {
-              email: token.email,
-            },
-          });
-        } catch (error) {
-          console.error(error);
-        } finally {
-          await prisma.$disconnect();
-        }
-      };
-      const dbUser = await userDb();
-      if (!dbUser) {
-        return null;
-      }
-      token.id = dbUser.id;
-      token.name = dbUser.name;
-      token.email = dbUser.email;
-      token.image = dbUser.image;
-      return token;
-    },
-    async session({ session, token }:any) {
-      session.user.id = token.id;
-      session.user.name = token.name;
-      session.user.email = token.email;
-      session.user.image = token.image;
-      return session;
-    },
-  },session:{
+  session:{
     strategy:"jwt"
   }
 };
-const handler = NextAuth(authOptions as any);
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

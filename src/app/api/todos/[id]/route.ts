@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
     const token: any = await getToken({ req });
-    if (!token) {
+    if (!token || !token?.sub) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     try {
@@ -22,7 +22,7 @@ export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
                 { status: 403, statusText: "Invalid todo" }
             );
         }
-        if (todoObject.userId !== token.id) {
+        if (todoObject.userId !== token.sub) {
             return NextResponse.json(
                 {
                     message: "Unauthorized",
@@ -44,7 +44,7 @@ export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
 };
 export const PATCH = async (req: NextRequest, { params }: ParamsType) => {
     const token: any = await getToken({ req });
-    if (!token) {
+    if (!token || !token?.sub) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     const body = await req.json();
@@ -66,7 +66,7 @@ export const PATCH = async (req: NextRequest, { params }: ParamsType) => {
                 { status: 403, statusText: "Invalid todo" }
             );
         }
-        if (todoObject.userId !== token.id) {
+        if (todoObject.userId !== token.sub) {
             return NextResponse.json(
                 {
                     message: "Unauthorized",

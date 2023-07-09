@@ -5,14 +5,14 @@ import { z } from "zod";
 import { todo, todos } from "@/schema/todo";
 
 export const GET = async (req: NextRequest) => {
-    const token: any = await getToken({ req });
-    if (!token) {
+    const token = await getToken({ req });
+    if (!token || !token?.sub) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     try {
         const data = await prisma.todo.findMany({
             where: {
-                userId: token.id,
+                userId: token.sub,
             },
         });
         const validatedData = todos.parse(data);
@@ -25,8 +25,8 @@ export const GET = async (req: NextRequest) => {
 };
 
 export const POST = async (req: NextRequest) => {
-    const token: any = await getToken({ req });
-    if (!token) {
+    const token = await getToken({ req });
+    if (!token || !token?.sub) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     const json = await req.json();
@@ -38,7 +38,7 @@ export const POST = async (req: NextRequest) => {
 
     try {
         const data = await prisma.todo.create({
-            data: { title: validatedTitle, userId: token.id },
+            data: { title: validatedTitle, userId: token.sub},
         });
         const validatedData = todo.parse(data);
         return NextResponse.json(validatedData, { status: 200 });
