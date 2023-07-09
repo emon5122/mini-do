@@ -6,9 +6,9 @@ export type Todo = z.infer<typeof todo>;
 export type Todos = z.infer<typeof todos>;
 export type TodoProps = {
     todo: Todo;
-    editId: number | undefined;
-    setEditId: Dispatch<SetStateAction<number | undefined>>;
-    handleDelete:(id:number)=>void;
+    editId: string | undefined;
+    setEditId: Dispatch<SetStateAction<string | undefined>>;
+    handleDelete:(id:string)=>void;
     handleToggle:(todo:Todo)=>void;
 };
 

@@ -18,7 +18,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { myAxios } from "@/lib/data-fetcher";
 import { SaveIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { envVariables } from "@/lib/env";
 
 const FormComponent = () => {
     const queryClient = useQueryClient();
@@ -37,9 +36,7 @@ const FormComponent = () => {
     const addItem = useMutation({
         mutationFn: async (title: string) => {
             await myAxios.post("/todos", {
-                id: parseInt(Math.random() * 200 + ""), //little trick to do auto id increment, in real scenerio, it will be handled by database
                 title: title,
-                completed: false,
             });
         },
         onSuccess: () => {

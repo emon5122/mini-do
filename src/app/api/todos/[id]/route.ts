@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/db'
+import { todo } from '@/schema/todo';
 import { ParamsType } from '@/types/api'
+import { Todo } from '@/types/todo';
 import { getToken } from 'next-auth/jwt';
 import {  NextResponse, type NextRequest,  } from 'next/server'
 import { z } from 'zod';
@@ -7,33 +9,28 @@ import { z } from 'zod';
 export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
     const token:any = await getToken({ req });
     if (!token) {
-        return NextResponse.json({ status: 401, message: "Unauthorized" });
+        return NextResponse.json({message: "Unauthorized" },{status: 401});
     }
     try {
         const todoObject = await prisma.todo.findUnique({ where: { id: params.id } })
         if (!todoObject) {
             return NextResponse.json({
-                status: 403,
                 message: 'Not a valid todo'
-            
-            })
+            },{status: 403, statusText:"Invalid todo"})
         }
         if (todoObject.userId !== token.id) {
             return NextResponse.json({
-                status: 401,
                 message: 'Unauthorized'
-            
-            })
+            },{status: 401, statusText:"Unauthorized"})
         }
-        await prisma.todo.delete({ where: { id: params.id } })
+        const data =await prisma.todo.delete({ where: { id: params.id } })
+        const validatedData = todo.parse(data)
         return NextResponse.json({
-            status: 200,
-            message: 'Todo deleted successfully'
-        
-        })
+            validatedData
+        },{status: 200, statusText:"Deleted"})
     }
      catch (error) {
-        throw new Error(error as string)
+        NextResponse.error()
     } finally {
         prisma.$disconnect()
 }
@@ -41,7 +38,7 @@ export const DELETE = async (req: NextRequest, { params }: ParamsType) => {
 export const PATCH = async (req: NextRequest, { params }: ParamsType) => {
     const token: any = await getToken({ req });
     if (!token) {
-        return NextResponse.json({ status: 401, message: "Unauthorized" });
+        return NextResponse.json({message: "Unauthorized" },{status: 401});
     }
     const body = await req.json()
     const validBody = z.object({
@@ -51,54 +48,48 @@ export const PATCH = async (req: NextRequest, { params }: ParamsType) => {
 
     try {
         const todoObject = await prisma.todo.findUnique({ where: { id: params.id } })
+        let data: Todo
         if (!todoObject) {
             return NextResponse.json({
-                status: 403,
                 message: 'Not a valid todo'
-            
-            })
+            },{status: 403, statusText:"Invalid todo"})
         }
         if (todoObject.userId !== token.id) {
             return NextResponse.json({
-                status: 401,
                 message: 'Unauthorized'
-            
-            })
+            },{status: 401, statusText:"Unauthorized"})
         }
         if (validBody.title && validBody.completed) {
-            await prisma.todo.update({
+            const res = await prisma.todo.update({
                 where: { id: params.id },
                 data: { title: validBody.title, completed: validBody.completed }
             })
+            data = todo.parse(res)
         } 
         else if (validBody.title) {
-            await prisma.todo.update({
+            const res =await prisma.todo.update({
                 where: { id: params.id },
                 data: { title: validBody.title }
             })
+            data = todo.parse(res)
         } else if (validBody.completed) {
-            await prisma.todo.update({
+            const res = await prisma.todo.update({
                 where: { id: params.id },
                 data: { completed: validBody.completed }
             })
+            data = todo.parse(res)
         } else {
             return NextResponse.json({
-                status: 422,
                 message: "You don't know what you want, how do you expect me to understand?"
-            
-            })
+            },{status: 422, statusText:"Unprocessable Entity"})
         }
         return NextResponse.json({
-            status: 200,
-            message: 'Updated Successfully'
-        
-        })
+            data
+        },{status: 200, statusText:"Updated"})
     }
      catch (error) {
-        throw new Error(error as string)
+        return NextResponse.error()
     } finally {
         prisma.$disconnect()
 }
 }
-
- 

@@ -16,7 +16,7 @@ import { useState } from "react";
 const Home = () => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
-    const [editId, setEditId] = useState<number | undefined>(undefined);
+    const [editId, setEditId] = useState<string | undefined>(undefined);
     const emptyArray = Array(6).fill({});
     const toggleTodo = useMutation({
         mutationFn: async ({
@@ -57,14 +57,14 @@ const Home = () => {
         },
     });
     const deleteItem = useMutation({
-        mutationFn: async (id: number) => {
+        mutationFn: async (id: string) => {
             await myAxios.delete(`/todos/${id}`);
         },
         onSuccess: () => {
             queryClient.invalidateQueries(["todos"]);
         },
     });
-    const handleDelete = (id: number) => {
+    const handleDelete = (id: string) => {
         deleteItem.mutate(id);
     };
     if (isLoading) {

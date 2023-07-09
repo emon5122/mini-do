@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import { addFormSchema } from "@/schema/todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { myAxios } from "@/lib/data-fetcher";
-import { envVariables } from "@/lib/env";
 
 export const TodoItem = (props: TodoProps) => {
     const queryClient = useQueryClient();
@@ -24,7 +23,7 @@ export const TodoItem = (props: TodoProps) => {
         },
     });
     const updateTodo = useMutation({
-        mutationFn: async ({ id, title }: { id: number; title: string }) => {
+        mutationFn: async ({ id, title }: { id: string; title: string }) => {
             const { data: dt } = await myAxios.patch(`todos/${id}`, {
                 title,
             });
@@ -34,7 +33,7 @@ export const TodoItem = (props: TodoProps) => {
             queryClient.invalidateQueries(["todos"]);
         },
     });
-    const handleUpdate = ({ id, title }: { id: number; title: string }) => {
+    const handleUpdate = ({ id, title }: { id: string; title: string }) => {
         updateTodo.mutate({ id, title });
         props.setEditId(undefined);
     };

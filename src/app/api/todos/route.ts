@@ -2,15 +2,13 @@ import { prisma } from "@/lib/db";
 import { NextResponse, type NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { z } from "zod";
-import { getServerSession } from "next-auth";
 import type { NextApiRequest } from "next";
-import { authOptions } from "../auth/[...nextauth]/route";
-import { todos } from "@/schema/todo";
+import { todo, todos } from "@/schema/todo";
 
 export const GET = async (req: NextRequest, res: NextApiRequest) => {
     const token: any = await getToken({ req });
     if (!token) {
-        return NextResponse.json({ status: 401, message: "Unauthorized" });
+        return NextResponse.json({message: "Unauthorized" },{status: 401});
     }
     try {
         const data = await prisma.todo.findMany({
@@ -19,9 +17,9 @@ export const GET = async (req: NextRequest, res: NextApiRequest) => {
             },
         });
         const validatedData = todos.parse(data)
-        return NextResponse.json(validatedData)
+        return NextResponse.json(validatedData,{status: 200})
     } catch (err) {
-        throw new Error(err as string);
+        return NextResponse.error()
     } finally {
         prisma.$disconnect();
     }
@@ -30,17 +28,19 @@ export const GET = async (req: NextRequest, res: NextApiRequest) => {
 export const POST = async (req: NextRequest) => {
     const token: any = await getToken({ req });
     if (!token) {
-        return NextResponse.json({ status: 401, message: "Unauthorized" });
+        return NextResponse.json({message: "Unauthorized" },{status: 401});
     }
     const { title } = await req.json();
     const validatedTitle = z.string().min(5).parse(title);
 
     try {
-        return await prisma.todo.create({
+        const data = await prisma.todo.create({
             data: { title: validatedTitle, userId: token.id },
         });
+        const validatedData = todo.parse(data);
+        return NextResponse.json(validatedData,{status: 200})
     } catch (err) {
-        throw new Error(err as string);
+        return NextResponse.error()
     } finally {
         prisma.$disconnect();
     }
