@@ -21,6 +21,7 @@
     "@radix-ui/react-tooltip": "^1.0.6",
     "@tanstack/react-query": "^4.29.19",
     "@tanstack/react-query-devtools": "^4.29.19",
+    "@total-typescript/ts-reset": "^0.4.2",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
