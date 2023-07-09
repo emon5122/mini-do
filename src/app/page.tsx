@@ -51,7 +51,7 @@ const Home = () => {
     } = useQuery({
         queryKey: ["todos"],
         queryFn: async () => {
-            const { data } = await myAxios.get("todos/");
+            const { data } = await myAxios.get("todos");
             const val = todos.parse(data);
             return val.reverse();
         },

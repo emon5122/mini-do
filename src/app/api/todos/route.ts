@@ -21,7 +21,7 @@ export const GET = async (req: NextRequest, res: NextApiRequest) => {
     } catch (err) {
         return NextResponse.error()
     } finally {
-        prisma.$disconnect();
+        await prisma.$disconnect();
     }
 };
 
@@ -42,6 +42,6 @@ export const POST = async (req: NextRequest) => {
     } catch (err) {
         return NextResponse.error()
     } finally {
-        prisma.$disconnect();
+        await prisma.$disconnect();
     }
 };

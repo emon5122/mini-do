@@ -1,4 +1,4 @@
-import { BanIcon, CrossIcon, Delete, Edit, Save, SaveIcon } from "lucide-react";
+import { BanIcon, Delete, Edit, SaveIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
