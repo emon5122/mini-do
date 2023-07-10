@@ -43,7 +43,7 @@ export const TodoItem = (props: TodoProps) => {
         form.reset();
     };
     return (
-        <Card className="relative py-4 h-[200px] hover:shadow-lg hover:shadow-secondary transition-all ease-in duration-500">
+        <Card className="py-4 h-[200px] hover:shadow-lg hover:shadow-secondary transition-all ease-in duration-500">
             <CardHeader>
                 <CardTitle>
                     {props.editId === props.todo.id ? (
