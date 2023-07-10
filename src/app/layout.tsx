@@ -9,8 +9,8 @@ import { Heart } from "lucide-react";
 import AuthProvider from "@/context/AuthProvider";
 
 export const metadata = {
-    title: "Todo App",
-    description: "Experimental Todo App",
+    title: "Mini-Do",
+    description: "Simplistic To-Do App",
 };
 
 export default function RootLayout({
@@ -33,7 +33,7 @@ export default function RootLayout({
                                 style={{ boxShadow: ".5em -0.001em 1em" }}
                             >
                                 <h1 className="text-center font-extrabold ml-10 text-xl">
-                                    <Link href="/"> TODO APP </Link>
+                                    <Link href="/"> Mini-Do </Link>
                                 </h1>
                                 <ModeToggle />
                             </div>
