@@ -28,33 +28,33 @@ mini-do is built using the following technologies:
 
 To run mini-do locally, follow these steps:
 
-1. Clone the repository:
+*1*. Clone the repository:
 
 ```bash
 git clone https://github.com/emon5122/mini-do
 ```
 
-2. Install the dependencies:
+*2*. Install the dependencies:
 
 ```bash
 yarn install
 ```
 
-3. Set up the environment variables:
+*3*. Set up the environment variables:
 Copy the .env.example file and rename it to .env. Update the values in the file with your own configuration.
-4. Set up the database:
+*4*. Set up the database:
 
 ```bash
 prisma migrate dev
 ```
 
-5. Start the development server:
+*5*. Start the development server:
 
 ```bash
 yarn dev
 ```
 
-6. Open your browser and visit <http://localhost:3000> to access mini-do.
+*6*. Open your browser and visit <http://localhost:3000> to access mini-do.
 
 ## Usage
 
