@@ -52,8 +52,8 @@ const Home = () => {
         queryKey: ["todos"],
         queryFn: async () => {
             const { data } = await myAxios.get("todos");
-            const val = todos.parse(data);
-            return val.reverse();
+            return todos.parse(data);
+            
         },
     });
     const deleteItem = useMutation({
