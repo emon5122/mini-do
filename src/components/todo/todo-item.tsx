@@ -144,7 +144,7 @@ export const TodoItem = (props: TodoProps) => {
                                     </p>
                                 )}
                             </div>
-                            <div className="flex justify-center gap-2 absolute bottom-2 w-full left-0">
+                            <div className="flex justify-center gap-2 bottom-2 w-full left-0">
                                 <Tooltip>
                                     <TooltipTrigger>
                                         <Button
