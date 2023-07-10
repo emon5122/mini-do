@@ -8,7 +8,15 @@ import { Skeleton } from "../ui/skeleton";
 import { TodoFormType, TodoProps } from "@/types/todo";
 import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "../ui/form";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "../ui/form";
 import { useForm } from "react-hook-form";
 import { addFormSchema } from "@/schema/todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -58,12 +66,22 @@ export const TodoItem = (props: TodoProps) => {
                                         name="todoItem"
                                         render={({ field }) => (
                                             <FormItem>
+                                                <FormLabel className="uppercase pl-2">
+                                                    Updated Todo name
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
-                                                        placeholder="eg. Go to school at the morning"
+                                                        placeholder={
+                                                            props.todo.title
+                                                        }
                                                         {...field}
                                                     />
                                                 </FormControl>
+                                                <FormDescription className="pl-4 text-muted-foreground/50">
+                                                    This will be your new todo
+                                                    name
+                                                </FormDescription>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
