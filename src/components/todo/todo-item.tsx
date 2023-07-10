@@ -135,11 +135,11 @@ export const TodoItem = (props: TodoProps) => {
                                     </TooltipContent>
                                 </Tooltip>
                                 {props.todo.completed ? (
-                                    <p className="line-through capitalize">
+                                    <p className="line-through capitalize text-center">
                                         {props.todo.title}
                                     </p>
                                 ) : (
-                                    <p className="capitalize">
+                                    <p className="capitalize text-center">
                                         {props.todo.title}
                                     </p>
                                 )}
