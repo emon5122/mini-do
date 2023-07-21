@@ -26,7 +26,7 @@
     "@total-typescript/ts-reset": "^0.4.2",
     "axios": "^1.4.0",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^1.2.1",
+    "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.11",
