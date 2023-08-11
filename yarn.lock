@@ -2475,10 +2475,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lucide-react@^0.265.0:
-  version "0.265.0"
-  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.265.0.tgz#251558b65aa24d069171b4e2b4846af37f5cc105"
-  integrity sha512-znyvziBEUQ7CKR31GiU4viomQbJrpDLG5ac+FajwiZIavC3YbPFLkzQx3dCXT4JWJx/pB34EwmtiZ0ElGZX0PA==
+lucide-react@^0.263.1:
+  version "0.263.1"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.263.1.tgz#a456ee0d171aa373929bd3ee20d6f9fb4429c301"
+  integrity sha512-keqxAx97PlaEN89PXZ6ki1N8nRjGWtDa4021GFYLNj0RgruM5odbpl8GHTExj0hhPq3sF6Up0gnxt6TSHu+ovw==
 
 merge-stream@^2.0.0:
   version "2.0.0"
@@ -2562,9 +2562,9 @@ natural-compare@^1.4.0:
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
 next-auth@^4.22.1:
-  version "4.22.5"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.22.5.tgz#ff1465f1ef7f9aab2daa4e63673bd580d374030c"
-  integrity sha512-zPVEpqDp4cx1y0HbonCSrz2sA4qw0grTMd/S0PezUKXvDzmVemtsJnfNK/xo5pO2sz5ilM541+EVCTp9QoRLbA==
+  version "4.23.0"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.23.0.tgz#1aeeb57f4fb2edf8e3ffb660e1016374e11b7237"
+  integrity sha512-RgukcJkBdvsJwEfA+B80Wcowvtgy6tk8KKWffb7CMCdzcLO4fCCA6aB6sp/DZ2I0ISvWGnbVcO5KXmlan71igw==
   dependencies:
     "@babel/runtime" "^7.20.13"
     "@panva/hkdf" "^1.0.2"
