@@ -30,7 +30,7 @@
     "date-fns": "^2.30.0",
     "eslint": "8.51.0",
     "eslint-config-next": "13.5.4",
-    "lucide-react": "^0.284.0",
+    "lucide-react": "^0.285.0",
     "next": "13.5.4",
     "next-auth": "^4.22.1",
     "next-themes": "^0.2.1",
