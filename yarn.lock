@@ -786,10 +786,10 @@
   dependencies:
     tslib "^2.4.0"
 
-"@tanstack/query-core@5.4.3":
-  version "5.4.3"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.4.3.tgz#fbdd36ccf1acf70579980f2e7cf16d2c2aa2a5e9"
-  integrity sha512-fnI9ORjcuLGm1sNrKatKIosRQUpuqcD4SV7RqRSVmj8JSicX2aoMyKryHEBpVQvf6N4PaBVgBxQomjsbsGPssQ==
+"@tanstack/query-core@5.7.2":
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.7.2.tgz#c4a994d6f2b0a6901741a805c32da94db964880d"
+  integrity sha512-vPYoNCOI8W+jFLnyEAYQL7/qURE7XzVE/TvkmNSko8LU55jFshee342p4GNFOTsYFgJty7Da5bw4m2P3vaKWMw==
 
 "@tanstack/query-devtools@5.4.2":
   version "5.4.2"
@@ -797,18 +797,18 @@
   integrity sha512-EXdaMXi8CxZuMp97J5mq6wy1RduOfoWFv5vtA1U+hyqb8Wst6M8kkkjDSdFvGZIRpYY4K8mKLlEFHNUZDG5dtw==
 
 "@tanstack/react-query-devtools@^5.0.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.7.0.tgz#0fec9ea00f6c9f5678bc2f9d3d22881533f0ff7c"
-  integrity sha512-UASSDywXWavqOjaTQ9sF4RG51miqtxo7LUr1/fvrek6o+GlUxF5TS+cIOy/lYdSMFtkuaVTb0LNW3OLEuFwOPw==
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.7.2.tgz#2a2a95bc1a1b3926808f1c3052d9982957e1e551"
+  integrity sha512-yYkzdmlntdJsy+GZzCabQGxxMjhRYayQzxe7OqYYFPnLEFf/eWkbH3cjyTBlGSKqpUN/8T5QS3P1Xur+l9hEng==
   dependencies:
     "@tanstack/query-devtools" "5.4.2"
 
 "@tanstack/react-query@^5.0.0":
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.7.0.tgz#6f9df3eb101a6a5303bd27134f8f7dad1711a9d6"
-  integrity sha512-f6F9OdW4MC0bwlYPXop114ngkkZtg650TeJpR2/ME9q/iJ/59dg2+LoGHEdHk2w1mNAdiuiPFYzCcl2WNkFiiw==
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.7.2.tgz#28a697ed9b8e5ae5c19f79a692180e819555c91f"
+  integrity sha512-NMsfz0Wd3VPDvSpX9sw2x07r0kf9HwuAlNNHQvwMUHM7EcuVN/LYmlmTe40dWER1c/92Jhc5LODdtW0PyvHsFg==
   dependencies:
-    "@tanstack/query-core" "5.4.3"
+    "@tanstack/query-core" "5.7.2"
 
 "@total-typescript/ts-reset@^0.5.0":
   version "0.5.1"
